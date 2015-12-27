@@ -36,11 +36,7 @@ effect = new THREE.StereoEffect(renderer);
 
 controls = new THREE.OrbitControls(camera, element);
 controls.rotateUp(Math.PI / 4);
-controls.target.set(
-  mesh.position.x,
-  mesh.position.y,
-  mesh.position.z
-);
+controls.target.set(0, 0, 0); // was earlier an object
 controls.noZoom = true;
 controls.noPan = true;
 controls.autoRotate = false;
@@ -64,7 +60,7 @@ function setOrientationControls(e) {
 }
   window.addEventListener('deviceorientation', setOrientationControls, true);
 
-function resize() {
+/*function resize() {
   var width = container.offsetWidth;
   var height = container.offsetHeight;
 
@@ -73,12 +69,12 @@ function resize() {
 
   renderer.setSize(width, height);
   effect.setSize(width, height);
-}
+}*/
 
 function update(dt) {
-  resize();
+  // resize();
 
-  //camera.updateProjectionMatrix();
+  camera.updateProjectionMatrix();
 
   controls.update(dt);
 
