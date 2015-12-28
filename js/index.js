@@ -2,7 +2,7 @@ var renderer = new THREE.WebGLRenderer({antialias: true});
 
 // cardboard/paper stuff
 var camera, scene, renderer;
-var effect, controls;
+var controls; //, effect;
 var element, container;
 
 var mesh;
@@ -32,7 +32,7 @@ var max = moving_average(num_samples);
 var may = moving_average(num_samples);
 var maz = moving_average(num_samples);
 
-effect = new THREE.StereoEffect(renderer);
+// effect = new THREE.StereoEffect(renderer);
 
 _pt = new GP.PaperTracker(settings);
 
@@ -53,20 +53,7 @@ function setOrientationControls(e) {
 }
   window.addEventListener('deviceorientation', setOrientationControls, true);
 
-/*function resize() {
-  var width = container.offsetWidth;
-  var height = container.offsetHeight;
-
-  camera.aspect = width / height;
-  camera.updateProjectionMatrix();
-
-  renderer.setSize(width, height);
-  effect.setSize(width, height);
-}*/
-
 function update(dt) {
-  // resize();
-
   camera.updateProjectionMatrix();
 
   controls.update(dt);
@@ -420,10 +407,11 @@ function onkey(event) {
     effect.setFullScreen(true) //fullscreen
   }
 };
-window.addEventListener("keydown", onkey, true);
+window.addEventListener("keydown", onkey, true);*/
 
 /*
 Handle window resizes
+*/
 
 function onWindowResize() {
   camera.aspect = window.innerWidth / window.innerHeight;
