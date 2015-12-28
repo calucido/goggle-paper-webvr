@@ -40,7 +40,7 @@ It has been developed with the help of a great many people including (but not li
 
 	<body>
   <video id="video" autoplay="true" style="display: none" height="240" width="320"></video> <!-- necessary to placate goggle-paper.js line 47ish -->
-      <canvas id="video-canvas" width="320" height="240" style="width: 320px; height: 240px;"></canvas> <!-- same as above -->
+      <canvas id="video-canvas" width="320" height="240" style="width: 320px; height: 240px; display:none"></canvas> <!-- same as above -->
   </body>
 
 	<!--
@@ -51,7 +51,9 @@ It has been developed with the help of a great many people including (but not li
   <script src="js/lib/cv.js"></script>
   <script src="js/lib/DeviceOrientationControls.js"></script>
   <script src="js/lib/goggle-paper.js"></script>
-  <script src="js/lib/OrbitControls.js"></script>
+  <script src="js/vr/VRControls.js"></script>
+  <script src="js/vr/PhoneVR.js"></script>
+  <script src="js/vr/VREffect.js"></script>
   <script src="js/lib/posit1.js"></script>
   <script src="js/lib/StereoEffect.js"></script>
   <script src="js/lib/svd.js"></script>

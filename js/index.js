@@ -34,13 +34,6 @@ var maz = moving_average(num_samples);
 
 effect = new THREE.StereoEffect(renderer);
 
-controls = new THREE.OrbitControls(camera, element);
-controls.rotateUp(Math.PI / 4);
-controls.target.set(0, 0, 0); // was earlier an object
-controls.noZoom = true;
-controls.noPan = true;
-controls.autoRotate = false;
-
 _pt = new GP.PaperTracker(settings);
 
 _pt.postInit();
@@ -80,14 +73,14 @@ function update(dt) {
 
   var success = _pt.process();
 
-  if (success && _pt.updateTracking() && _pt.trackingInfo.translation != undefined) {
+  if (success && _pt.updateTracking() && _pt.trackingInfo.translation !== undefined) {
     updateObject(camera, _pt.trackingInfo.rotation, _pt.trackingInfo.translation, _pt.camDirection);
   }
 }
 
 function updateObject(obj, rotation, translation, camDir){
   var trans = translation;
-  if (trans == undefined) {
+  if (trans === undefined) {
     return false;
   }
   var tx = !settings.filtering.enabled ? -trans[0] : max(-trans[0]);
@@ -103,7 +96,7 @@ function updateObject(obj, rotation, translation, camDir){
     obj.rotation.y = -Math.atan2(rotation[0][2], rotation[2][2]);
     obj.rotation.z = Math.atan2(rotation[1][0], rotation[1][1]);
   }
-};
+}
 
 function fullscreen() {
   if (container.requestFullscreen) {
@@ -137,11 +130,11 @@ scene.add(camera);
 camera.position.set(0, 1, 0);
 
 // Apply VR headset positional data to camera.
-//var controls = new THREE.VRControls(camera);
+var controls = new THREE.VRControls(camera);
 
 // Apply VR stereo rendering to renderer
-//var effect = new THREE.VREffect(renderer);
-//effect.setSize(window.innerWidth, window.innerHeight);
+var effect = new THREE.VREffect(renderer);
+effect.setSize(window.innerWidth, window.innerHeight);
 
 // VR Scene Below
 
@@ -277,7 +270,7 @@ for (i = 0; i<snowmanNumber; i++) {
   // body
   snowman[i] = new THREE.Object3D();
   bodyPart[i] = [];
-  for (j = 0; j<bodyPartNumber; j++) {
+  for (var j = 0; j<bodyPartNumber; j++) {
     bodyPart[i][j] = new THREE.Mesh(
       new THREE.BoxGeometry(1 - j / 4, 1 - j / 4, 1 - j /4),
       new THREE.MeshLambertMaterial({color: 0xffffff})
