@@ -1,4 +1,4 @@
-var renderer = new THREE.WebGLRenderer({antialias: true});
+var renderer = new THREE.WebGLRenderer({antialias: true});//, canvas: document.getElementById('actual-sceney-canvas')});
 
 // cardboard/paper stuff
 var camera, scene, renderer;
@@ -34,12 +34,12 @@ var maz = moving_average(num_samples);
 
 effect = new THREE.StereoEffect(renderer);
 
-controls = new THREE.OrbitControls(camera, element);
+/*controls = new THREE.OrbitControls(camera, element);
 controls.rotateUp(Math.PI / 4);
 controls.target.set(0, 0, 0); // was earlier an object
 controls.noZoom = true;
 controls.noPan = true;
-controls.autoRotate = false;
+controls.autoRotate = false;*/
 
 _pt = new GP.PaperTracker(settings);
 
@@ -60,7 +60,7 @@ function setOrientationControls(e) {
 }
   window.addEventListener('deviceorientation', setOrientationControls, true);
 
-/*function resize() {
+function resize() {
   var width = container.offsetWidth;
   var height = container.offsetHeight;
 
@@ -69,14 +69,14 @@ function setOrientationControls(e) {
 
   renderer.setSize(width, height);
   effect.setSize(width, height);
-}*/
+}
 
 function update(dt) {
   // resize();
 
   camera.updateProjectionMatrix();
 
-  controls.update(dt);
+  //controls.update(dt);
 
   var success = _pt.process();
 
@@ -104,6 +104,10 @@ function updateObject(obj, rotation, translation, camDir){
     obj.rotation.z = Math.atan2(rotation[1][0], rotation[1][1]);
   }
 };
+function updateCamera() {
+  camera.position.x = _pt.trackingInfo.translation[0] / 4;
+  camera.position.y = Math.abs(_pt.trackingInfo.translation[1] / 20);
+}
 
 function fullscreen() {
   if (container.requestFullscreen) {
@@ -402,6 +406,7 @@ function animate() {
 
   update(clock.getDelta());
   render(clock.getDelta());
+  updateCamera();
 }
 
 animate();	// Kick off animation loop
