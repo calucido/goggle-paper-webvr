@@ -94,7 +94,7 @@ function updateObject(obj, rotation, translation, camDir){
     obj.rotation.y = -Math.atan2(rotation[0][2], rotation[2][2]);
     obj.rotation.z = Math.atan2(rotation[1][0], rotation[1][1]);
   }
-};
+}
 
 function updateCamera() {
   camera.position.x = _pt.trackingInfo.translation[0] / 4;
