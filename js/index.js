@@ -2,7 +2,7 @@ var renderer = new THREE.WebGLRenderer({antialias: true});//, canvas: document.g
 
 // cardboard/paper stuff
 var camera, scene, renderer;
-var effect, controls;
+var controls; //, effect;
 var element, container;
 
 var mesh;
@@ -32,14 +32,7 @@ var max = moving_average(num_samples);
 var may = moving_average(num_samples);
 var maz = moving_average(num_samples);
 
-effect = new THREE.StereoEffect(renderer);
-
-/*controls = new THREE.OrbitControls(camera, element);
-controls.rotateUp(Math.PI / 4);
-controls.target.set(0, 0, 0); // was earlier an object
-controls.noZoom = true;
-controls.noPan = true;
-controls.autoRotate = false;*/
+// effect = new THREE.StereoEffect(renderer);
 
 _pt = new GP.PaperTracker(settings);
 
@@ -72,22 +65,20 @@ function resize() {
 }
 
 function update(dt) {
-  // resize();
-
   camera.updateProjectionMatrix();
 
   //controls.update(dt);
 
   var success = _pt.process();
 
-  if (success && _pt.updateTracking() && _pt.trackingInfo.translation != undefined) {
+  if (success && _pt.updateTracking() && _pt.trackingInfo.translation !== undefined) {
     updateObject(camera, _pt.trackingInfo.rotation, _pt.trackingInfo.translation, _pt.camDirection);
   }
 }
 
 function updateObject(obj, rotation, translation, camDir){
   var trans = translation;
-  if (trans == undefined) {
+  if (trans === undefined) {
     return false;
   }
   var tx = !settings.filtering.enabled ? -trans[0] : max(-trans[0]);
@@ -104,6 +95,7 @@ function updateObject(obj, rotation, translation, camDir){
     obj.rotation.z = Math.atan2(rotation[1][0], rotation[1][1]);
   }
 };
+
 function updateCamera() {
   camera.position.x = _pt.trackingInfo.translation[0] / 4;
   camera.position.y = Math.abs(_pt.trackingInfo.translation[1] / 20);
@@ -141,11 +133,11 @@ scene.add(camera);
 camera.position.set(0, 1, 0);
 
 // Apply VR headset positional data to camera.
-//var controls = new THREE.VRControls(camera);
+var controls = new THREE.VRControls(camera);
 
 // Apply VR stereo rendering to renderer
-//var effect = new THREE.VREffect(renderer);
-//effect.setSize(window.innerWidth, window.innerHeight);
+var effect = new THREE.VREffect(renderer);
+effect.setSize(window.innerWidth, window.innerHeight);
 
 // VR Scene Below
 
@@ -281,7 +273,7 @@ for (i = 0; i<snowmanNumber; i++) {
   // body
   snowman[i] = new THREE.Object3D();
   bodyPart[i] = [];
-  for (j = 0; j<bodyPartNumber; j++) {
+  for (var j = 0; j<bodyPartNumber; j++) {
     bodyPart[i][j] = new THREE.Mesh(
       new THREE.BoxGeometry(1 - j / 4, 1 - j / 4, 1 - j /4),
       new THREE.MeshLambertMaterial({color: 0xffffff})
@@ -432,10 +424,11 @@ function onkey(event) {
     effect.setFullScreen(true) //fullscreen
   }
 };
-window.addEventListener("keydown", onkey, true);
+window.addEventListener("keydown", onkey, true);*/
 
 /*
 Handle window resizes
+*/
 
 function onWindowResize() {
   camera.aspect = window.innerWidth / window.innerHeight;
